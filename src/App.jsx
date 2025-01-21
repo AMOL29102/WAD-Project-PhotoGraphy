@@ -6,6 +6,8 @@ import CameraShowcase from './components/CameraShowcase';
 import Gallery from './components/Gallery';
 import Contact from './components/Contact';
 
+
+
 function App() {
   const [loading, setLoading] = useState(true);
 
