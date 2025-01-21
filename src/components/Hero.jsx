@@ -1,0 +1,177 @@
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import backgroundImage from "../Assets/Images/1.png";
+import { debounce } from "lodash";
+import { Camera } from 'lucide-react';
+
+
+// Preload images to avoid lag during gallery scrolling
+const preloadImages = (imageUrls) => {
+  imageUrls.forEach((url) => {
+    const img = new Image();
+    img.src = url;
+  });
+};
+
+export default function Hero() {
+  const containerRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const { scrollYProgress } = useScroll();
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
+  const y = useTransform(scrollYProgress, [0, 0.2], [0, 100]);
+
+  // Preload gallery images
+  useEffect(() => {
+    const galleryImages = [
+      "/Assets/Images/5.png",
+      "/Assets/Images/6.png",
+      "/Assets/Images/7.png",
+      "/Assets/Images/8.png",
+      "/Assets/Images/9.png",
+      "/Assets/Images/10.png",
+    ];
+    preloadImages(galleryImages);
+
+    const timer = setTimeout(() => setIsLoaded(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Smooth scroll to gallery
+  const scrollToGallery = () => {
+    const gallerySection = document.getElementById("gallery");
+    if (gallerySection) {
+      gallerySection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // Debounce the scroll function
+  const debouncedScroll = debounce(scrollToGallery, 200);
+
+  return (
+    <motion.div
+      ref={containerRef}
+      style={{ opacity, scale, y }}
+      className="h-screen relative overflow-hidden bg-black"
+    >
+      {/* Background Image */}
+      <motion.div
+        initial={{ scale: 1.5, opacity: 0 }}
+        animate={{ scale: 1.5, opacity: 0.9 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+
+      {/* Gradient Overlay */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isLoaded ? 1 : 0 }}
+        transition={{ duration: 1, delay: 0.5 }}
+        className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90"
+      />
+
+      {/* Content */}
+      <div className="relative z-10 h-full flex flex-col items-center justify-center text-white px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1 }}
+          className="flex flex-col items-center gap-8 mb-12"
+        >
+          {/* Icon */}
+          <motion.div
+            animate={{
+              rotateY: [0, 360],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              repeatDelay: 5,
+            }}
+            className="mb-4"
+          >
+            <Camera size={64} className="text-white" />
+          </motion.div>
+
+          {/* Heading */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.2 }}
+            className="text-6xl md:text-8xl font-bold text-center leading-tight"
+          >
+            Lens & Light
+          </motion.h1>
+
+          {/* Subheading */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.4 }}
+            className="text-xl md:text-3xl text-center max-w-2xl text-gray-300"
+          >
+            Where moments become timeless memories
+          </motion.p>
+        </motion.div>
+
+        {/* Call to Action Button */}
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.6 }}
+          whileHover={{
+            scale: 1.05,
+            boxShadow: "0 0 30px rgba(255,255,255,0.3)",
+          }}
+          whileTap={{ scale: 0.95 }}
+          onClick={debouncedScroll}
+          className="px-12 py-4 bg-white text-black rounded-full text-xl font-semibold hover:bg-opacity-90 transition-colors"
+        >
+          Explore Our Work
+        </motion.button>
+      </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 1 }}
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2"
+      >
+        <motion.p className="text-white/80 text-sm uppercase tracking-widest">
+          Scroll to Discover
+        </motion.p>
+        <motion.div
+          animate={{
+            y: [0, 10, 0],
+            opacity: [0.5, 1, 0.5],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+          className="w-1 h-12 bg-white/30 rounded-full relative overflow-hidden"
+        >
+          <motion.div
+            animate={{
+              y: [0, 48, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              repeatType: "loop",
+            }}
+            className="absolute top-0 left-0 right-0 h-1/2 bg-white rounded-full"
+          />
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+}
