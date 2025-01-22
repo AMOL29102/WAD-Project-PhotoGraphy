@@ -1,0 +1,8 @@
+Model Information:
+* title:	Nikon D5600
+* source:	https://sketchfab.com/3d-models/nikon-d5600-36194b93f54d45909587a3750f84402c
+* author:	Serious Black 19 (https://sketchfab.com/seriousblack_19)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

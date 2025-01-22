@@ -4,7 +4,7 @@ import camera11 from '../Assets/Images/11.png';
 
 export default function Contact() {
   return (
-    <div className="relative py-20 bg-black text-white overflow-hidden">
+    <div className="relative py-20 bg-black text-white overflow-hidden z-1]">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
