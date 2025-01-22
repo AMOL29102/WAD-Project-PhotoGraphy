@@ -59,7 +59,7 @@ export default function CameraShowcase() {
       className="min-h-[300vh] relative overflow-hidden"
     >
       {/* First Section - Main Camera View */}
-      <div className="sticky top-0 flex items-center justify-center overflow-hidden  bg-gradient-to-b from-black via-gray-900 to-black ">
+      <div className="sticky top-0 flex items-center justify-center overflow-hidden  bg-gradient-to-b from-black via-gray-950 to-black ">
         <motion.div
           style={{ y, opacity }}
           className="relative w-full max-w-7xl mx-auto px-4"
@@ -225,7 +225,7 @@ export default function CameraShowcase() {
 
 
       {/* Third section Lens */}
-      <div className="sticky top-0 h-screen flex items-center justify-center bg-black/90 mb-24 ">
+      <div className="sticky top-0 h-screen flex items-center justify-center bg-black/90 mb-[15rem] ">
         <motion.div
           style={{
             opacity: useTransform(scrollYProgress, [0.6, 0.5, 1], [0.3, 2, 1]), // Enhanced opacity range

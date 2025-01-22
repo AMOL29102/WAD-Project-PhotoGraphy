@@ -39,7 +39,7 @@ const Camera3D = () => {
   const handlePointerLeave = () => setZoomEnabled(false);
 
   return (
-    <div className="h-[30rem] bg-gradient-to-b from-black via-gray-900 to-black pt-24 flex justify-center items-center relative z-10">
+    <div className="h-[30rem] bg-gradient-to-b from-black via-gray-900 to-black pt-24 flex justify-center items-center relative z-10 mb-8">
       <Canvas
         camera={{ position: [4, 2, 8], fov: 50 }}
         className="w-full h-[5rem]"
@@ -47,7 +47,7 @@ const Camera3D = () => {
         onPointerLeave={handlePointerLeave}
       >
         <ambientLight intensity={0.6} />
-        <directionalLight position={[10, -10, 5]} intensity={3} />
+        <directionalLight position={[ 0, 1, 5]} intensity={3} />
         <RotatingCameraModel />
         <OrbitControls 
           ref={controlsRef} 
@@ -65,7 +65,7 @@ const Camera3D = () => {
       </button>
       <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 text-white text-center">
         <h1 className="text-xl font-bold">3D Camera Showcase</h1>
-        <p className="text-sm">Explore the model by rotating, panning, and zooming!</p>
+        <p className="text-m">Explore the model by rotating and panning!</p>
       </div>
     </div>
   );
