@@ -29,10 +29,10 @@ export default function Gallery() {
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
 
   return (
-    <div id="gallery" ref={containerRef} className="py-20 bg-black min-h-screen">
+    <div id="gallery" ref={containerRef} className="py-20 min-h-screen bg-gradient-to-b from-black via-gray-900 to-black">
       <motion.h2
         style={{ opacity, scale }}
-        className="text-4xl md:text-5xl font-bold text-center text-white mb-16"
+        className="text-4xl md:text-5xl font-bold text-center text-white mb-16 "
       >
         Portfolio
       </motion.h2>
@@ -88,7 +88,8 @@ function GalleryItem({ image, index }) {
         initial={{ opacity: 0 }}
         whileHover={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
-        className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center backdrop-blur-sm"
+        style={{ backdropFilter: 'blur(1px)' }}
+        className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"
       >
         <motion.h3
           initial={{ y: 20 }}

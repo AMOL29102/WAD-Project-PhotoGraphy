@@ -5,6 +5,8 @@ import Hero from './components/Hero';
 import CameraShowcase from './components/CameraShowcase';
 import Gallery from './components/Gallery';
 import Contact from './components/Contact';
+import Camera3D from './components/Camera3D';
+
 
 
 
@@ -29,6 +31,7 @@ function App() {
       {/* Main Sections */}
       <Hero />
       <CameraShowcase />
+      <Camera3D />
       <Gallery />
       <Contact />
     </div>
