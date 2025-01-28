@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin } from 'lucide-react';
-import camera11 from '../Assets/Images/11.png';
+import camera11 from '../Assets/Images/111.png';
 
 export default function Contact() {
   return (
