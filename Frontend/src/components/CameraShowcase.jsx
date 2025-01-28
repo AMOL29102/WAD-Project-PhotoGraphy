@@ -139,6 +139,7 @@
 //             </motion.div>
 
 //             {/* Feature Cards */}
+//<div className="hidden md:block">
 //             {features.map((feature, index) => (
 //               <motion.div
 //                 key={feature.title}
@@ -169,6 +170,7 @@
 //                 <p className="text-gray-300">{feature.description}</p>
 //               </motion.div>
 //             ))}
+//</div>
 //           </div>
 //         </motion.div>
 //       </div >
@@ -177,14 +179,14 @@
 //       < div className="sticky h-screen flex items-center justify-center bg-black/90 mt-[10%] bg-gradient-to-b from-black via-gray-900 to-black" >
 //         <motion.div
 //           style={{
-//             opacity: useTransform(scrollYProgress, [0.4, 0.5, 0.9, 1], [0, 1, 1, 0])
+//              opacity: useTransform(scrollYProgress, [0.2, 0.4, 0.9, 1], [0.4, 1, 1, 0.2])
 //           }}
 //           className="w-full max-w-7xl mx-auto px-4"
 //         >
 //           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 //             <motion.div
 //               style={{
-//                 x: useSpring(useTransform(scrollYProgress, [0.5, 0.7], [-200, 0]), springConfig)
+//                  x: useSpring(useTransform(scrollYProgress, [0.1, 0.7], [-200, 0]), springConfig)
 //               }}
 //             >
 //               <motion.img
@@ -195,7 +197,7 @@
 //             </motion.div>
 //             <motion.div
 //               style={{
-//                 x: useSpring(useTransform(scrollYProgress, [0.5, 0.7], [200, 0]), springConfig)
+//                x: useSpring(useTransform(scrollYProgress, [0.1, 0.4], [200, 0]), springConfig)
 //               }}
 //               className="text-white space-y-6"
 //             >
@@ -358,7 +360,7 @@ export default function CameraShowcase() {
   return (
     <div
       ref={containerRef}
-      className="min-h-[300vh] relative overflow-hidden"
+      className="min-h-[400vh] relative overflow-hidden"
     >
       {/* First Section - Main Camera View */}
       <div className="sticky top-0 flex items-center justify-center overflow-hidden bg-gradient-to-b from-black via-gray-950 to-black">
@@ -481,7 +483,7 @@ export default function CameraShowcase() {
       <div className="sticky h-screen flex items-center justify-center bg-black/90 mt-[10%] bg-gradient-to-b from-black via-gray-900 to-black">
         <motion.div
           style={{
-            opacity: useTransform(scrollYProgress, [0.4, 0.5, 0.9, 1], [0, 1, 1, 0])
+            opacity: useTransform(scrollYProgress, [0.2, 0.4, 0.9, 1], [0.4, 1, 1, 0.2])
           }}
           className="w-full max-w-7xl mx-auto px-4"
         >
