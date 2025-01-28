@@ -360,7 +360,7 @@ export default function CameraShowcase() {
   return (
     <div
       ref={containerRef}
-      className="min-h-[400vh] relative overflow-hidden"
+      className="min-h-[300vh] relative overflow-hidden"
     >
       {/* First Section - Main Camera View */}
       <div className="sticky top-0 flex items-center justify-center overflow-hidden bg-gradient-to-b from-black via-gray-950 to-black">
