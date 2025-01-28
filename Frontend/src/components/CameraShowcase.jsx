@@ -295,7 +295,7 @@
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef } from 'react';
 import camera from '../Assets/Images/2.png';
-import camera3 from '../Assets/Images/3.png';
+import camera3 from '../Assets/Images/31.png';
 import camera4 from '../Assets/Images/41.png';
 import camera5 from '../Assets/Images/51.png';
 import camera6 from '../Assets/Images/61.png';

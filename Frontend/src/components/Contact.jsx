@@ -12,24 +12,27 @@ export default function Contact() {
           alt="Background"
           className="w-full h-full object-cover"
         />
-        <div 
+        <div
           style={{ backdropFilter: 'blur(1px)' }}
-        className="absolute inset-0 bg-black bg-opacity-60 " />
+          className="absolute inset-0 bg-black bg-opacity-60"
+        />
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
         className="relative z-10 max-w-6xl mx-auto px-4"
       >
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">Get in Touch</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
             className="space-y-8 bg-black/40 backdrop-blur-md p-8 rounded-2xl"
           >
             <div className="flex items-center gap-4">
@@ -53,13 +56,16 @@ export default function Contact() {
           </motion.div>
 
           <motion.form
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
             className="space-y-6 bg-black/40 backdrop-blur-md p-8 rounded-2xl"
           >
             <div>
-              <label htmlFor="name" className="sr-only">Your Name</label>
+              <label htmlFor="name" className="sr-only">
+                Your Name
+              </label>
               <input
                 id="name"
                 type="text"
@@ -68,7 +74,9 @@ export default function Contact() {
               />
             </div>
             <div>
-              <label htmlFor="email" className="sr-only">Your Email</label>
+              <label htmlFor="email" className="sr-only">
+                Your Email
+              </label>
               <input
                 id="email"
                 type="email"
@@ -78,7 +86,9 @@ export default function Contact() {
               />
             </div>
             <div>
-              <label htmlFor="message" className="sr-only">Your Message</label>
+              <label htmlFor="message" className="sr-only">
+                Your Message
+              </label>
               <textarea
                 id="message"
                 placeholder="Your Message"
@@ -88,8 +98,8 @@ export default function Contact() {
               />
             </div>
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               className="w-full px-8 py-3 bg-white text-black rounded-lg text-lg font-semibold hover:bg-opacity-90 transition-colors"
               type="submit"
             >
