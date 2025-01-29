@@ -25,7 +25,7 @@ function App() {
   return (
     <div className="bg-black">
       <AnimatePresence>
-        {loading && <Preloader />}
+        {/* {loading && <Preloader />} */}
       </AnimatePresence>
       
       {/* Main Sections */}
