@@ -1,39 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import backgroundImage from "../Assets/Images/1.png";
-import { debounce } from "lodash";
 import { Camera } from 'lucide-react';
+import { debounce } from "lodash";
 
-
-// Preload images to avoid lag during gallery scrolling
-const preloadImages = (imageUrls) => {
-  imageUrls.forEach((url) => {
-    const img = new Image();
-    img.src = url;
-  });
-};
-
-export default function Hero() {
+export default function App() {
   const containerRef = useRef(null);
+  const videoRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const { scrollYProgress } = useScroll();
 
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
   const y = useTransform(scrollYProgress, [0, 0.2], [0, 100]);
 
-  // Preload gallery images
   useEffect(() => {
-    const galleryImages = [
-      "/Assets/Images/5.png",
-      "/Assets/Images/6.png",
-      "/Assets/Images/7.png",
-      "/Assets/Images/8.png",
-      "/Assets/Images/9.png",
-      "/Assets/Images/10.png",
-    ];
-    preloadImages(galleryImages);
-
     const timer = setTimeout(() => setIsLoaded(true), 500);
     return () => clearTimeout(timer);
   }, []);
@@ -55,25 +35,41 @@ export default function Hero() {
       style={{ opacity, scale, y }}
       className="h-screen relative overflow-hidden bg-black"
     >
-      {/* Background Image */}
-      <motion.div
-        initial={{ scale: 1.5, opacity: 0 }}
-        animate={{ scale: 1.5, opacity: 0.9 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
+      {/* Video Background */}
+      {/* https://cdn.pixabay.com/video/2017/12/03/13186-246454298_large.mp4 */}
+      {/* https://cdn.pixabay.com/video/2023/03/12/154384-807362369_large.mp4 */}
+      {/* https://cdn.pixabay.com/video/2016/01/05/1841-150885292_medium.mp4 */}
+      {/* https://cdn.pixabay.com/video/2018/01/20/13857-252799040_large.mp4 */}
+      {/* https://video-previews.elements.envatousercontent.com/bc31b948-3bfa-4c68-80f0-2afac3b60413/watermarked_preview/watermarked_preview.mp4 */}
+      {/* https://www.pexels.com/search/videos/photography%20animation/ */}
+      {/* https://cdn.pixabay.com/video/2020/07/20/45132-441301006_large.mp4 */}
+      {/* https://cdn.pixabay.com/video/2024/03/29/206029_large.mp4 */}
+      {/* https://videos.pexels.com/video-files/4087672/4087672-hd_1080_1920_20fps.mp4 */}
+      {/* https://cdn.pixabay.com/video/2016/10/24/6090-188704540_large.mp4 */}
+      {/* https://cdn.pixabay.com/video/2023/07/08/170655-843752693_large.mp4 */}
+      <div className="absolute inset-0 z-0">
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="object-cover w-full h-full opacity-90 z-100"
+        >
+          <source 
+            src="https://cdn.pixabay.com/video/2017/12/03/13186-246454298_large.mp4" 
+            type="video/mp4" 
+          />
+          Your browser does not support the video tag.
+        </video>
+      </div>
 
       {/* Gradient Overlay */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isLoaded ? 1 : 0 }}
+        initial={{ opacity: 0.6 }}
+        animate={{ opacity: isLoaded ? 1 : 0.6 }}
         transition={{ duration: 1, delay: 0.5 }}
-        className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90"
+        className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30"
       />
 
       {/* Content */}
@@ -82,7 +78,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1 }}
-          className="flex flex-col items-center gap-8 mb-12"
+          className="flex flex-col items-center gap-8 mb-40"
         >
           {/* Icon */}
           <motion.div
@@ -94,30 +90,30 @@ export default function Hero() {
               repeat: Infinity,
               repeatDelay: 5,
             }}
-            className="mb-4"
+            className="mb-4 opacity-60"
           >
             <Camera size={64} className="text-white" />
           </motion.div>
 
           {/* Heading */}
-          <motion.h1
+          {/* <motion.h1
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 0.2, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            className="text-6xl md:text-8xl font-bold text-center leading-tight"
+            className="text-6xl md:text-8xl font-bold text-center leading-tight z-1"
           >
             Lens & Light
-          </motion.h1>
+          </motion.h1> */}
 
           {/* Subheading */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
+          {/* <motion.p
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.4 }}
             className="text-xl md:text-3xl text-center max-w-2xl text-gray-300"
           >
             Where moments become timeless memories
-          </motion.p>
+          </motion.p> */}
         </motion.div>
 
         {/* Call to Action Button */}
