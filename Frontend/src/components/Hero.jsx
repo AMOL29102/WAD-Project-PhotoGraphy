@@ -1,12 +1,27 @@
+{/* https://cdn.pixabay.com/video/2017/12/03/13186-246454298_large.mp4 */}
+// https://pixabay.com/videos/modern-photography-people-13186/
+{/* https://cdn.pixabay.com/video/2023/03/12/154384-807362369_large.mp4 */}
+{/* https://cdn.pixabay.com/video/2016/01/05/1841-150885292_medium.mp4 */}
+{/* https://cdn.pixabay.com/video/2018/01/20/13857-252799040_large.mp4 */}
+{/* https://video-previews.elements.envatousercontent.com/bc31b948-3bfa-4c68-80f0-2afac3b60413/watermarked_preview/watermarked_preview.mp4 */}
+{/* https://www.pexels.com/search/videos/photography%20animation/ */}
+{/* https://cdn.pixabay.com/video/2020/07/20/45132-441301006_large.mp4 */}
+{/* https://cdn.pixabay.com/video/2024/03/29/206029_large.mp4 */}
+{/* https://videos.pexels.com/video-files/4087672/4087672-hd_1080_1920_20fps.mp4 */}
+{/* https://cdn.pixabay.com/video/2016/10/24/6090-188704540_large.mp4 */}
+{/* https://cdn.pixabay.com/video/2023/07/08/170655-843752693_large.mp4 */}
+
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Camera } from 'lucide-react';
+import { Camera } from "lucide-react";
 import { debounce } from "lodash";
+import preview from "/Assets/Images/preview.png";
 
 export default function App() {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
   const { scrollYProgress } = useScroll();
 
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
@@ -18,6 +33,32 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Lazy Load Video
+  // useEffect(() => {
+  //   const handleLazyLoad = () => {
+  //     if (videoRef.current) {
+  //       videoRef.current.src =
+  //         "https://cdn.pixabay.com/video/2017/12/03/13186-246454298_large.mp4";
+  //       videoRef.current.preload = "metadata";
+  //     }
+  //   };
+
+  //   const lazyLoadTimer = setTimeout(handleLazyLoad, 1000); // Load video after 1 sec
+  //   return () => clearTimeout(lazyLoadTimer);
+  // }, []);
+
+  useEffect(() => {
+    const handleLazyLoad = () => {
+      if (videoRef.current) {
+        videoRef.current.src = "/Assets/Videos/hero.mp4";
+        videoRef.current.preload = "metadata";
+      }
+    };
+  
+    const lazyLoadTimer = setTimeout(handleLazyLoad, 1000); // Load video after 1 sec
+    return () => clearTimeout(lazyLoadTimer);
+  }, []);
+
   // Smooth scroll to gallery
   const scrollToGallery = () => {
     const gallerySection = document.getElementById("gallery");
@@ -26,7 +67,6 @@ export default function App() {
     }
   };
 
-  // Debounce the scroll function
   const debouncedScroll = debounce(scrollToGallery, 200);
 
   return (
@@ -35,33 +75,27 @@ export default function App() {
       style={{ opacity, scale, y }}
       className="h-screen relative overflow-hidden bg-black"
     >
-      {/* Video Background */}
-      {/* https://cdn.pixabay.com/video/2017/12/03/13186-246454298_large.mp4 */}
-      {/* https://cdn.pixabay.com/video/2023/03/12/154384-807362369_large.mp4 */}
-      {/* https://cdn.pixabay.com/video/2016/01/05/1841-150885292_medium.mp4 */}
-      {/* https://cdn.pixabay.com/video/2018/01/20/13857-252799040_large.mp4 */}
-      {/* https://video-previews.elements.envatousercontent.com/bc31b948-3bfa-4c68-80f0-2afac3b60413/watermarked_preview/watermarked_preview.mp4 */}
-      {/* https://www.pexels.com/search/videos/photography%20animation/ */}
-      {/* https://cdn.pixabay.com/video/2020/07/20/45132-441301006_large.mp4 */}
-      {/* https://cdn.pixabay.com/video/2024/03/29/206029_large.mp4 */}
-      {/* https://videos.pexels.com/video-files/4087672/4087672-hd_1080_1920_20fps.mp4 */}
-      {/* https://cdn.pixabay.com/video/2016/10/24/6090-188704540_large.mp4 */}
-      {/* https://cdn.pixabay.com/video/2023/07/08/170655-843752693_large.mp4 */}
+      {/* Video Background with Placeholder */}
       <div className="absolute inset-0 z-0">
+        {/* {!videoLoaded && (
+          <img
+            src={preview} // Use a lightweight preview image
+            alt="Video Placeholder"
+            className="object-cover w-full h-full opacity-50"
+          />
+        )} */}
         <video
           ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          className="object-cover w-full h-full opacity-90 z-100"
-        >
-          <source 
-            src="https://cdn.pixabay.com/video/2017/12/03/13186-246454298_large.mp4" 
-            type="video/mp4" 
-          />
-          Your browser does not support the video tag.
-        </video>
+          preload="none"
+          onLoadedData={() => setVideoLoaded(true)}
+          className={`object-cover w-full h-full transition-opacity duration-1000 ${
+            videoLoaded ? "opacity-90" : "opacity-0"
+          }`}
+        />
       </div>
 
       {/* Gradient Overlay */}
@@ -78,7 +112,7 @@ export default function App() {
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1 }}
-          className="flex flex-col items-center gap-8 mb-40"
+          className="flex flex-col items-center gap-8 mb-3"
         >
           {/* Icon */}
           <motion.div
@@ -90,47 +124,27 @@ export default function App() {
               repeat: Infinity,
               repeatDelay: 5,
             }}
-            className="mb-4 opacity-60"
+            className="mb-40 opacity-60"
           >
             <Camera size={64} className="text-white" />
           </motion.div>
 
-          {/* Heading */}
-          {/* <motion.h1
+          {/* Call to Action Button */}
+          <motion.button
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 0.2, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-            className="text-6xl md:text-8xl font-bold text-center leading-tight z-1"
-          >
-            Lens & Light
-          </motion.h1> */}
-
-          {/* Subheading */}
-          {/* <motion.p
-            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.4 }}
-            className="text-xl md:text-3xl text-center max-w-2xl text-gray-300"
+            transition={{ duration: 0.8, delay: 1.6 }}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0 0 30px rgba(255,255,255,0.3)",
+            }}
+            whileTap={{ scale: 0.95 }}
+            onClick={debouncedScroll}
+            className="px-12 py-4 bg-white text-black rounded-full text-xl font-semibold hover:bg-opacity-90 transition-colors"
           >
-            Where moments become timeless memories
-          </motion.p> */}
+            Explore Our Work
+          </motion.button>
         </motion.div>
-
-        {/* Call to Action Button */}
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.6 }}
-          whileHover={{
-            scale: 1.05,
-            boxShadow: "0 0 30px rgba(255,255,255,0.3)",
-          }}
-          whileTap={{ scale: 0.95 }}
-          onClick={debouncedScroll}
-          className="px-12 py-4 bg-white text-black rounded-full text-xl font-semibold hover:bg-opacity-90 transition-colors"
-        >
-          Explore Our Work
-        </motion.button>
       </div>
 
       {/* Scroll Indicator */}

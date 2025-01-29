@@ -107,12 +107,12 @@
 import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import camera5 from '../Assets/Images/51.png';
-import camera6 from '../Assets/Images/61.png';
-import camera7 from '../Assets/Images/71.png';
-import camera8 from '../Assets/Images/81.png';
-import camera9 from '../Assets/Images/91.png';
-import camera10 from '../Assets/Images/101.png';
+import camera5 from '/Assets/Images/51.png';
+import camera6 from '/Assets/Images/61.png';
+import camera7 from '/Assets/Images/71.png';
+import camera8 from '/Assets/Images/81.png';
+import camera9 from '/Assets/Images/91.png';
+import camera10 from '/Assets/Images/101.png';
 
 // Using Unsplash for images and Coverr for videos as placeholders
 const items = [
