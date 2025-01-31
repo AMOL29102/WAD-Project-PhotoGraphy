@@ -34,30 +34,30 @@ export default function App() {
   }, []);
 
   // Lazy Load Video
-  // useEffect(() => {
-  //   const handleLazyLoad = () => {
-  //     if (videoRef.current) {
-  //       videoRef.current.src =
-  //         "https://cdn.pixabay.com/video/2017/12/03/13186-246454298_large.mp4";
-  //       videoRef.current.preload = "metadata";
-  //     }
-  //   };
-
-  //   const lazyLoadTimer = setTimeout(handleLazyLoad, 1000); // Load video after 1 sec
-  //   return () => clearTimeout(lazyLoadTimer);
-  // }, []);
-
   useEffect(() => {
     const handleLazyLoad = () => {
       if (videoRef.current) {
-        videoRef.current.src = "/Assets/Videos/hero.mp4";
+        videoRef.current.src =
+          "https://cdn.pixabay.com/video/2017/12/03/13186-246454298_large.mp4";
         videoRef.current.preload = "metadata";
       }
     };
-  
+
     const lazyLoadTimer = setTimeout(handleLazyLoad, 1000); // Load video after 1 sec
     return () => clearTimeout(lazyLoadTimer);
   }, []);
+
+  // useEffect(() => {
+  //   const handleLazyLoad = () => {
+  //     if (videoRef.current) {
+  //       videoRef.current.src = "/Assets/Videos/hero.mp4";
+  //       videoRef.current.preload = "metadata";
+  //     }
+  //   };
+  
+  //   const lazyLoadTimer = setTimeout(handleLazyLoad, 1000); // Load video after 1 sec
+  //   return () => clearTimeout(lazyLoadTimer);
+  // }, []);
 
   // Smooth scroll to gallery
   const scrollToGallery = () => {
@@ -77,13 +77,13 @@ export default function App() {
     >
       {/* Video Background with Placeholder */}
       <div className="absolute inset-0 z-0">
-        {/* {!videoLoaded && (
+        {!videoLoaded && (
           <img
             src={preview} // Use a lightweight preview image
             alt="Video Placeholder"
             className="object-cover w-full h-full opacity-50"
           />
-        )} */}
+        )}
         <video
           ref={videoRef}
           autoPlay
