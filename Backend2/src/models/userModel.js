@@ -6,6 +6,10 @@ const userSchema = new mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, unique: true, sparse: true },
     mobile: { type: String, unique: true, sparse: true },
+    wishlist: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Service'
+    }],
     password: { type: String, required: true },
     isAdmin: { type: Boolean, default: false }, // ✅ New field
   },

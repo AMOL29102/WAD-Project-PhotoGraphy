@@ -6,7 +6,7 @@ function AdminEvents() {
   const [eventData, setEventData] = useState({
     name: '',
     description: '',
-    basePrice: 20000,
+    // basePrice: 20000,
   });
 
   const [message, setMessage] = useState('');
@@ -41,7 +41,7 @@ function AdminEvents() {
         }
       );
       setMessage('Event added successfully!');
-      setEventData({ name: '', description: '', basePrice: 20000 });
+      // setEventData({ name: '', description: '', basePrice: 20000 });
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || 'Something went wrong.');
@@ -77,17 +77,17 @@ function AdminEvents() {
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Base Price (₹)</label>
-            <input
+          {/* <div> */}
+            {/* <label className="block text-sm font-medium text-gray-700">Base Price (₹)</label> */}
+            {/* <input
               type="number"
               value={eventData.basePrice}
               onChange={(e) => setEventData({ ...eventData, basePrice: Number(e.target.value) })}
               className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               min="0"
               required
-            />
-          </div>
+            /> */}
+          {/* </div> */}
 
           {message && <p className="text-green-600 text-sm">{message}</p>}
           {error && <p className="text-red-600 text-sm">{error}</p>}

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logout } from '../store/slices/authSlice';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useAuth();
   const location = useLocation();
 
   // Detect if current page has dark background
@@ -38,7 +39,7 @@ export default function Navbar() {
               >
                 Gallery
               </Link>
-              {user && (
+              {isAuthenticated && (
                 <>
                   <Link
                     to="/bookings"
@@ -46,30 +47,51 @@ export default function Navbar() {
                   >
                     My Bookings
                   </Link>
-                  {user.isAdmin && (
+                  {!user?.isAdmin && (
                     <Link
-                      to="/admin/events"
+                      to="/wishlist"
                       className="hover:text-red-500 transition-colors duration-200"
                     >
-                      Admin Events
+                      Wishlist
                     </Link>
+                  )}
+                  {user?.isAdmin && (
+                    <>
+                      <Link
+                        to="/admin/events"
+                        className="hover:text-red-500 transition-colors duration-200"
+                      >
+                        Admin Events
+                      </Link>
+                      <Link
+                        to="/admin/add-service"
+                        className="hover:text-red-500 transition-colors duration-200"
+                      >
+                        Add Service
+                      </Link>
+                    </>
                   )}
                 </>
               )}
             </div>
           </div>
           <div className="flex items-center">
-            {user ? (
-              <button
-                onClick={() => dispatch(logout())}
-                className={`px-4 py-2 rounded-md font-medium transition-colors duration-200 ${
-                  isDarkPage
-                    ? 'bg-red-600 text-white hover:bg-red-700'
-                    : 'bg-red-500 text-white hover:bg-red-600'
-                }`}
-              >
-                Logout
-              </button>
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-sm hidden md:inline">
+                  {user?.isAdmin ? 'Admin: ' : ''}{user?.name}
+                </span>
+                <button
+                  onClick={() => dispatch(logout())}
+                  className={`px-4 py-2 rounded-md font-medium transition-colors duration-200 ${
+                    isDarkPage
+                      ? 'bg-red-600 text-white hover:bg-red-700'
+                      : 'bg-red-500 text-white hover:bg-red-600'
+                  }`}
+                >
+                  Logout
+                </button>
+              </div>
             ) : (
               <div className="space-x-4">
                 <Link

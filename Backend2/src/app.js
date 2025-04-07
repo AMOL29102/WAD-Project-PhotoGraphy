@@ -3,7 +3,7 @@ const connectDB = require('./config/db');
 const userRoutes = require('./routes/user.routes');
 const cors = require('cors');
 require('dotenv').config();
-
+const wishlistRoutes = require('./routes/wishlist.routes')
 // Initialize the app
 const app = express();
 
@@ -20,6 +20,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/events', require('./routes/event.routes'));
 app.use('/api/gallery', require('./routes/gallery.routes'));
 app.use('/api/bookings', require('./routes/booking.routes'));
+app.use('/api/wishlist', wishlistRoutes)
 
 // Default route
 app.get('/', (req, res) => {
