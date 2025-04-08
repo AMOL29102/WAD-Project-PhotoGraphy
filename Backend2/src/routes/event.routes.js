@@ -28,5 +28,6 @@ router.put('/:id', updateEvent);
 router.get('/:eventId/services', getEventServices);
 router.post('/:eventId/services', createService);
 router.delete('/:id', protectAdminRoutes, deleteEvent);
+router.delete('/:eventId/services/:serviceId', protectAdminRoutes, deleteService);
 
 module.exports = router;

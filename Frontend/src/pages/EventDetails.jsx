@@ -53,6 +53,7 @@ function EventDetails() {
   };
 
   const handleDeleteService = async () => {
+    const token = localStorage.getItem('token');
     try {
       await axios.delete(`http://localhost:3000/api/events/${eventId}/services/${selectedServiceId}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -61,7 +62,7 @@ function EventDetails() {
       setServices(services.filter(service => service._id !== selectedServiceId));
       toast.success('Service deleted successfully');
     } catch (error) {
-      toast.error('Failed to delete service');
+      toast.error(error.response?.data?.message || 'Failed to delete service');
       console.error('Failed to delete service:', error);
     }
   };

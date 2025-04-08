@@ -116,11 +116,28 @@ const deleteEvent = async (req, res) => {
   }
 };
 
+const deleteService = async (req, res) => {
+  try {
+    const service = await Service.findByIdAndDelete(req.params.serviceId);
+    if (!service) {
+      return res.status(404).json({ message: 'Service not found' });
+    }
+    // Remove service reference from event
+    await Event.findByIdAndUpdate(req.params.eventId, {
+      $pull: { services: req.params.serviceId }
+    });
+    res.status(200).json({ message: 'Service deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = { 
   getAllEvents, 
   createEvent, 
   updateEvent, 
   getEventServices, 
   createService,
-  deleteEvent
+  deleteEvent,
+  deleteService
 };
