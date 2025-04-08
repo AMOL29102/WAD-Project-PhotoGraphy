@@ -41,13 +41,13 @@ export default function Navbar() {
               </Link>
               {isAuthenticated && (
                 <>
-                  <Link
+                  {/* <Link
                     to="/bookings"
                     className="hover:text-red-500 transition-colors duration-200"
                   >
                     My Bookings
-                  </Link>
-                  {!user?.isAdmin && (
+                  </Link> */}
+                  {!(user?.isAdmin) && (
                     <Link
                       to="/wishlist"
                       className="hover:text-red-500 transition-colors duration-200"
@@ -78,9 +78,9 @@ export default function Navbar() {
           <div className="flex items-center">
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
-                <span className="text-sm hidden md:inline">
+                {/* <span className="text-sm hidden md:inline">
                   {user?.isAdmin ? 'Admin: ' : ''}{user?.name}
-                </span>
+                </span> */}
                 <button
                   onClick={() => dispatch(logout())}
                   className={`px-4 py-2 rounded-md font-medium transition-colors duration-200 ${

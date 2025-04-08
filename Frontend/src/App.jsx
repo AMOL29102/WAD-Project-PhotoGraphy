@@ -48,7 +48,7 @@ function RootPage() {
           <Hero />
           <CameraShowcase />
           <Camera3D />
-          <GallerySection />
+          {/* <GallerySection /> */}
           <Contact />
         </>
       )}

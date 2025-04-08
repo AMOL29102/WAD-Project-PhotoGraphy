@@ -1,20 +1,21 @@
-{/* https://cdn.pixabay.com/video/2017/12/03/13186-246454298_large.mp4 */}
+{/* https://cdn.pixabay.com/video/2017/12/03/13186-246454298_large.mp4 */ }
 // https://pixabay.com/videos/modern-photography-people-13186/
-{/* https://cdn.pixabay.com/video/2023/03/12/154384-807362369_large.mp4 */}
-{/* https://cdn.pixabay.com/video/2016/01/05/1841-150885292_medium.mp4 */}
-{/* https://cdn.pixabay.com/video/2018/01/20/13857-252799040_large.mp4 */}
-{/* https://video-previews.elements.envatousercontent.com/bc31b948-3bfa-4c68-80f0-2afac3b60413/watermarked_preview/watermarked_preview.mp4 */}
-{/* https://www.pexels.com/search/videos/photography%20animation/ */}
-{/* https://cdn.pixabay.com/video/2020/07/20/45132-441301006_large.mp4 */}
-{/* https://cdn.pixabay.com/video/2024/03/29/206029_large.mp4 */}
-{/* https://videos.pexels.com/video-files/4087672/4087672-hd_1080_1920_20fps.mp4 */}
-{/* https://cdn.pixabay.com/video/2016/10/24/6090-188704540_large.mp4 */}
-{/* https://cdn.pixabay.com/video/2023/07/08/170655-843752693_large.mp4 */}
+{/* https://cdn.pixabay.com/video/2023/03/12/154384-807362369_large.mp4 */ }
+{/* https://cdn.pixabay.com/video/2016/01/05/1841-150885292_medium.mp4 */ }
+{/* https://cdn.pixabay.com/video/2018/01/20/13857-252799040_large.mp4 */ }
+{/* https://video-previews.elements.envatousercontent.com/bc31b948-3bfa-4c68-80f0-2afac3b60413/watermarked_preview/watermarked_preview.mp4 */ }
+{/* https://www.pexels.com/search/videos/photography%20animation/ */ }
+{/* https://cdn.pixabay.com/video/2020/07/20/45132-441301006_large.mp4 */ }
+{/* https://cdn.pixabay.com/video/2024/03/29/206029_large.mp4 */ }
+{/* https://videos.pexels.com/video-files/4087672/4087672-hd_1080_1920_20fps.mp4 */ }
+{/* https://cdn.pixabay.com/video/2016/10/24/6090-188704540_large.mp4 */ }
+{/* https://cdn.pixabay.com/video/2023/07/08/170655-843752693_large.mp4 */ }
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Camera } from "lucide-react";
 import { debounce } from "lodash";
+import { useNavigate } from "react-router-dom";
 import preview from "/Assets/Images/preview.png";
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const { scrollYProgress } = useScroll();
+  const navigate = useNavigate();
 
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
@@ -54,7 +56,7 @@ export default function App() {
   //       videoRef.current.preload = "metadata";
   //     }
   //   };
-  
+
   //   const lazyLoadTimer = setTimeout(handleLazyLoad, 1000); // Load video after 1 sec
   //   return () => clearTimeout(lazyLoadTimer);
   // }, []);
@@ -92,9 +94,8 @@ export default function App() {
           playsInline
           preload="none"
           onLoadedData={() => setVideoLoaded(true)}
-          className={`object-cover w-full h-full transition-opacity duration-1000 ${
-            videoLoaded ? "opacity-90" : "opacity-0"
-          }`}
+          className={`object-cover w-full h-full transition-opacity duration-1000 ${videoLoaded ? "opacity-90" : "opacity-0"
+            }`}
         />
       </div>
 
@@ -130,7 +131,7 @@ export default function App() {
           </motion.div>
 
           {/* Call to Action Button */}
-          <motion.button
+          {/* <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.6 }}
@@ -143,7 +144,16 @@ export default function App() {
             className="px-12 py-4 bg-white text-black rounded-full text-xl font-semibold hover:bg-opacity-90 transition-colors"
           >
             Explore Our Work
-          </motion.button>
+          </motion.button> */}
+
+          <button
+
+            onClick={() => navigate("/events")}
+            className="px-12 py-4 bg-white text-black rounded-full text-xl font-semibold hover:bg-opacity-90 transition-colors"
+          >
+            Explore Our Work
+          </button>
+
         </motion.div>
       </div>
 

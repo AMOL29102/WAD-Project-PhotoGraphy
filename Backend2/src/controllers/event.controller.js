@@ -35,6 +35,8 @@
 
 const Event = require('../models/eventModel');
 const Service = require('../models/serviceModel');
+const path = require('path');
+
 
 const getAllEvents = async (req, res) => {
   try {
@@ -47,12 +49,22 @@ const getAllEvents = async (req, res) => {
 
 const createEvent = async (req, res) => {
   try {
-    const event = await Event.create(req.body);
+    const { name, description } = req.body;
+    const imageUrl = req.file ? `uploads/${req.file.filename}` : null;
+
+    const event = new Event({
+      name,
+      description,
+      imageUrl,
+    });
+
+    await event.save();
     res.status(201).json(event);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
+
 
 const updateEvent = async (req, res) => {
   try {
@@ -73,7 +85,7 @@ const getEventServices = async (req, res) => {
   }
 };
 
-const createService = async (req, res) => {
+const createService = async (req, res) => { 
   try {
     const service = await Service.create({
       ...req.body,

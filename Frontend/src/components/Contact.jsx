@@ -23,11 +23,11 @@ export default function Contact() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="relative z-10 max-w-6xl mx-auto px-4"
+        className="relative z-10 max-w-6xl mx-auto px-4 flex flex-col items-center px-6 md:px-8 lg:px-12"
       >
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">Get in Touch</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -39,23 +39,23 @@ export default function Contact() {
               <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
                 <Mail className="w-6 h-6" />
               </div>
-              <p className="text-lg">contact@lensandlight.com</p>
+              <p className="text-lg">hiraiphotostudio@gmail.com</p>
             </div>
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
                 <Phone className="w-6 h-6" />
               </div>
-              <p className="text-lg">+1 (555) 123-4567</p>
+              <p className="text-lg">+91 9881522732</p>
             </div>
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
                 <MapPin className="w-6 h-6" />
               </div>
-              <p className="text-lg">123 Photography Lane, Art District</p>
+              <p className="text-lg">Hirai Photo Studio, Main Road, Gujar Ali, Chopda, Dist. Jalgaon</p>
             </div>
           </motion.div>
 
-          <motion.form
+          {/* <motion.form
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -105,7 +105,7 @@ export default function Contact() {
             >
               Send Message
             </motion.button>
-          </motion.form>
+          </motion.form> */}
         </div>
       </motion.div>
     </div>

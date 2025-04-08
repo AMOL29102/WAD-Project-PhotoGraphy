@@ -9,19 +9,21 @@
 // router.put('/:id', protectUserRoutes, updateEvent);
 
 // module.exports = router;
-
 const express = require('express');
 const router = express.Router();
-const { 
-  getAllEvents, 
-  createEvent, 
-  updateEvent, 
-  getEventServices, 
-  createService 
-} = require('../controllers/event.controller.js');
+const {
+  getAllEvents,
+  createEvent,
+  updateEvent,
+  getEventServices,
+  createService,
+} = require('../controllers/event.controller');
 
+const upload = require('../middleware/upload');
+
+// ✅ Add image upload middleware to create event
 router.get('/', getAllEvents);
-router.post('/', createEvent);
+router.post('/', upload.single('image'), createEvent); // Modified
 router.put('/:id', updateEvent);
 router.get('/:eventId/services', getEventServices);
 router.post('/:eventId/services', createService);

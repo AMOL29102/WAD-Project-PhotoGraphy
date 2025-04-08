@@ -41,15 +41,15 @@ function Events() {
               key={event._id}
               className="relative rounded-2xl shadow-lg overflow-hidden group transition duration-300 hover:scale-[1.02]"
             >
+              {console.log(event)}
               <div
                 className="h-56 bg-cover bg-center bg-gray-200"
                 style={{
-                  backgroundImage: `url('https://source.unsplash.com/600x400/?${encodeURIComponent(event.name)},event')`,
-                }}
-                onError={(e) => {
-                  e.target.style.backgroundImage = 'none';
+                  backgroundImage: `url(http://localhost:3000/${event.imageUrl || `uploads/temp.png`})`,
                 }}
               />
+
+
               <div className="p-6 bg-white">
                 <h2 className="text-2xl font-semibold text-gray-800 mb-2 truncate">{event.name}</h2>
                 <p className="text-gray-600 mb-4 line-clamp-2">{event.description || 'No description available'}</p>

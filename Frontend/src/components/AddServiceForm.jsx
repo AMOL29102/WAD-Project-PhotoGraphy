@@ -105,19 +105,21 @@ const AddServiceForm = () => {
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700">Select Event</label>
         <select
+          style={{   color: 'black' }}
           value={selectedEvent?._id || ''}
           onChange={handleEventChange}
           disabled={fetchingEvents || loading}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-black focus:border-blue-500 focus:ring-blue-500"
         >
+          {console.log(events)}
           <option value="">Select an event</option>
           {events.map((event) => (
-            <option key={event._id} value={event._id}>
-              {event.title} {/* Display event title */}
+            <option className="text-black" key={event._id} value={event._id}>
+              {event.name} {/* Display event title */}
             </option>
           ))}
         </select>
-        {fetchingEvents && <p className="text-gray-500 mt-2">Loading events...</p>}
+        {fetchingEvents && <p className="text-black-500 mt-2">Loading events...</p>}
       </div>
 
       {/* Service Form - only show when an event is selected */}
@@ -205,9 +207,8 @@ const AddServiceForm = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-              loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-            } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
+              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
           >
             {loading ? 'Adding...' : 'Add Service'}
           </button>
