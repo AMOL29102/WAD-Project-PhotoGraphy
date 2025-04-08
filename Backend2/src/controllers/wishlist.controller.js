@@ -1,4 +1,4 @@
-import User from "../models/userModel.js";
+const User = require('../models/userModel');
 
 
 const addToWishlist = async (req, res) => {
@@ -28,4 +28,4 @@ const addToWishlist = async (req, res) => {
     }
   };
 
-  export { addToWishlist, getWishlist };
+module.exports = { addToWishlist, getWishlist };
