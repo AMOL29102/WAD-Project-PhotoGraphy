@@ -17,7 +17,7 @@ export const addToWishlist = createAsyncThunk('wishlist/add', async (serviceId) 
 });
 
 export const removeFromWishlist = createAsyncThunk('wishlist/remove', async (serviceId) => {
-  const response = await api.delete(`/wishlist/${serviceId}`);
+  await api.delete(`/wishlist/${serviceId}`);
   return serviceId;
 });
 
