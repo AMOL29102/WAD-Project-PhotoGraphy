@@ -78,6 +78,22 @@ function Events() {
         <div className="text-center text-gray-600">No events available yet.</div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+          {/* Custom Event Card */}
+          <div className="relative rounded-2xl shadow-lg overflow-hidden group transition duration-300 hover:scale-[1.02]">
+            <div className="h-56 bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
+              <span className="text-4xl text-white">✨</span>
+            </div>
+            <div className="p-6 bg-white">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-2">Custom Event</h2>
+              <p className="text-gray-600 mb-4">Create your own customized event package with our flexible options.</p>
+              <Link
+                to="/custom-event"
+                className="inline-block bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition"
+              >
+                Create Custom Package
+              </Link>
+            </div>
+          </div>
           {events.map((event) => (
             <div
               key={event._id}

@@ -72,14 +72,27 @@ const CustomEventForm = () => {
     setFormData(prev => ({ ...prev, customEstimates: updatedEstimates }));
   };
 
-  const calculatePhotoPrice = (photos) => {
+  const calculatePhotoPrice = (photos, photographers) => {
     const applicableRate = photoRates.find(
       rate => photos >= rate.minPhotos && photos <= rate.maxPhotos
     );
     if (applicableRate) {
-      return photos * applicableRate.pricePerPhoto;
+      return photos * applicableRate.pricePerPhoto * photographers;
     }
+    toast.error('No applicable rate found for this number of photos');
     return 0;
+  };
+
+  const handleEstimateSubmit = (e) => {
+    e.preventDefault();
+    const totalPhotoPrice = calculatePhotoPrice(
+      photoEstimate.estimatedPhotos,
+      photoEstimate.numberOfPhotographers
+    );
+    setPhotoEstimate(prev => ({
+      ...prev,
+      totalPhotoPrice
+    }));
   };
 
   const handlePhotoEstimateChange = (field, value) => {
