@@ -17,8 +17,8 @@ export const addToWishlist = createAsyncThunk('wishlist/add', async (serviceId) 
 });
 
 export const removeFromWishlist = createAsyncThunk('wishlist/remove', async (serviceId) => {
-  const response = await api.delete(`http://localhost:3000/wishlist/${serviceId}`);
-  return response.data;
+  const response = await api.delete(`/wishlist/${serviceId}`);
+  return serviceId;
 });
 
 export const fetchWishlist = createAsyncThunk('wishlist/fetch', async () => {
@@ -57,7 +57,7 @@ const serviceSlice = createSlice({
         state.wishlist.push(action.payload);
       })
       .addCase(removeFromWishlist.fulfilled, (state, action) => {
-        state.wishlist = state.wishlist.filter(item => item._id !== action.payload._id);
+        state.wishlist = state.wishlist.filter(item => item._id !== action.payload);
       })
       .addCase(fetchWishlist.fulfilled, (state, action) => {
         state.wishlist = action.payload;
