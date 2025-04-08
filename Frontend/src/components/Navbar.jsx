@@ -10,7 +10,7 @@ export default function Navbar() {
   const location = useLocation();
 
   // Detect if current page has dark background
-  const isDarkPage = location.pathname === '/'; // or any dark page routes you use
+  const isDarkPage = location.pathname === '/' || '/gallary'; // or any dark page routes you use
 
   return (
     <nav

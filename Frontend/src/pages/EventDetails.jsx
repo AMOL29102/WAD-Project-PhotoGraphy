@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { jwtDecode } from 'jwt-decode';
+import { useAuth } from '../context/AuthContext';
+
 
 
 function EventDetails() {
@@ -23,6 +25,8 @@ function EventDetails() {
     hours: '',
   });
   const [estimatedPrice, setEstimatedPrice] = useState(null);
+
+  const { user } = useAuth();
   useEffect(() => {
     const fetchServices = async () => {
       try {
@@ -99,13 +103,21 @@ function EventDetails() {
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-24 px-6">
       {/* ... existing event details header ... */}
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-12">{event.name}</h1>
-      
+
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <p className="text-gray-600 mb-4">{event.description || 'No description available'}</p>
-          <p className="text-lg font-bold text-blue-600">Base Price: ₹{event.basePrice.toLocaleString()}</p>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Event Description</h2>
+          <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+            {event.description || 'We’re crafting unforgettable experiences just for you. Description will be available soon!'}
+          </p>
+
+          <h3 className="text-xl font-medium text-gray-800 mb-2">Base Price</h3>
+          <p className="text-2xl font-bold text-blue-600">
+            ₹{event.basePrice.toLocaleString()}
+          </p>
         </div>
       </div>
+
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {console.log(services)}
@@ -128,24 +140,23 @@ function EventDetails() {
               </p>
 
               <div className="mt-4 flex gap-2">
-              {}
+                { }
 
-                <button
+                {!user.isAdmin && (<button
                   onClick={() => addToWishlist(service._id)}
                   disabled={addingToWishlist[service._id]}
-                  className={`bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 flex items-center space-x-2 ${
-                    addingToWishlist[service._id] ? 'opacity-75 cursor-not-allowed' : ''
-                  }`}
+                  className={`bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 flex items-center space-x-2 ${addingToWishlist[service._id] ? 'opacity-75 cursor-not-allowed' : ''
+                    }`}
                 >
                   {addingToWishlist[service._id] ? (
                     <svg className="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
                   ) : (
-                    <span>Add to Wishlist</span>
+                    (<span>Add to Wishlist</span>)
                   )}
-                </button>
+                </button>)}
               </div>
             </div>
           ))}
