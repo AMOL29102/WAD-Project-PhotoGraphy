@@ -23,6 +23,7 @@ app.use('/api/events', require('./routes/event.routes'));
 app.use('/api/gallery', require('./routes/gallery.routes'));
 app.use('/api/bookings', require('./routes/booking.routes'));
 app.use('/api/wishlist', wishlistRoutes)
+app.use('/api/photo-rates', require('./routes/photoRate.routes'));
 
 // Default route
 app.get('/', (req, res) => {
