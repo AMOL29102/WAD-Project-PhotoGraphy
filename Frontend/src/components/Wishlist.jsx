@@ -50,7 +50,7 @@ const Wishlist = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-8 text-gray-800">My Wishlist</h2>
+      <h2 className="text-3xl font-bold mb-8 text-gray-800 mt-16">My Wishlist</h2>
       {wishlist.length === 0 ? (
         <div className="min-h-[40vh] flex items-center justify-center">
           <div className="text-center p-8 bg-white rounded-lg shadow-lg">

@@ -22,6 +22,7 @@ const {
 const upload = require('../middleware/upload');
 const { protectUserRoutes, protectAdminRoutes } = require('../middleware/authMiddleware');
 const { deleteEvent } = require('../controllers/event.controller');
+const { deleteService } = require('../controllers/event.controller');
 
 // ✅ Add image upload middleware to create event
 router.get('/', getAllEvents);

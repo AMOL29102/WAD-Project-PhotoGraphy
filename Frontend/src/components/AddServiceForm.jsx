@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { motion } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 
 const AddServiceForm = () => {
   const { user } = useAuth();
   const [events, setEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(null); // Changed to store full event object
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -31,26 +33,17 @@ const AddServiceForm = () => {
         setFetchingEvents(false);
       }
     };
-
     fetchEvents();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!selectedEvent) {
-      setError('Please select an event first');
-      return;
-    }
-
-    if (!formData.title.trim() || !formData.price) {
-      setError('Title and Price are required');
-      return;
-    }
+    if (!selectedEvent) return setError('Please select an event first');
+    if (!formData.title.trim() || !formData.price) return setError('Title and Price are required');
 
     const serviceData = {
       ...formData,
-      event: selectedEvent._id, // Use ID for API call
+      event: selectedEvent._id,
       teamCount: parseInt(formData.teamCount) || 0,
       peopleToShoot: parseInt(formData.peopleToShoot) || 0,
       price: parseFloat(formData.price),
@@ -58,19 +51,10 @@ const AddServiceForm = () => {
 
     setLoading(true);
     setError('');
-
     try {
       await axios.post(`http://localhost:3000/api/events/${selectedEvent._id}/services`, serviceData);
       alert('Service added successfully!');
-      setFormData({
-        title: '',
-        description: '',
-        cameraEquipment: '',
-        teamCount: '',
-        peopleToShoot: '',
-        price: '',
-        isCustom: false,
-      });
+      setFormData({ title: '', description: '', cameraEquipment: '', teamCount: '', peopleToShoot: '', price: '', isCustom: false });
     } catch (error) {
       setError('Error adding service: ' + (error.response?.data?.message || error.message));
     } finally {
@@ -79,141 +63,102 @@ const AddServiceForm = () => {
   };
 
   const handleEventChange = (e) => {
-    const eventId = e.target.value;
-    const selected = events.find(event => event._id === eventId) || null;
+    const selected = events.find(ev => ev._id === e.target.value) || null;
     setSelectedEvent(selected);
     setError('');
   };
 
   if (!user?.isAdmin) {
     return (
-      <div className="text-center py-12">
-        <h2 className="text-2xl font-bold mb-4">Access Denied</h2>
+      <div className="text-center py-20">
+        <h2 className="text-3xl font-bold text-red-600 mb-4 animate-pulse">Access Denied</h2>
         <p className="text-gray-600">Only administrators can add services.</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-6">
-        Add Service to Event {selectedEvent ? `"${selectedEvent.title}"` : ''}
-      </h2>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+    <div className="pt-20 px-4">
+    <motion.div 
+      className="max-w-4xl mx-auto p-8 bg-white rounded-2xl shadow-xl "
+      initial={{ opacity: 0, y: 40 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      transition={{ duration: 0.6 }}
+    >
+      <h2 className="text-3xl font-bold text-center text-blue-700 mb-10">Add New Service</h2>
 
-      {/* Events Dropdown */}
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
       <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700">Select Event</label>
+        <label className="block text-sm font-semibold text-gray-700 mb-1">Select Event</label>
         <select
-          style={{   color: 'black' }}
           value={selectedEvent?._id || ''}
           onChange={handleEventChange}
           disabled={fetchingEvents || loading}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-black focus:border-blue-500 focus:ring-blue-500"
+          className="w-full border rounded-lg px-4 py-2 text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          {console.log(events)}
-          <option value="">Select an event</option>
+          <option value="">-- Choose an event --</option>
           {events.map((event) => (
-            <option className="text-black" key={event._id} value={event._id}>
-              {event.name} {/* Display event title */}
-            </option>
+            <option key={event._id} value={event._id}>{event.name}</option>
           ))}
         </select>
-        {fetchingEvents && <p className="text-black-500 mt-2">Loading events...</p>}
+        {fetchingEvents && <p className="text-sm text-gray-500 mt-2 animate-pulse">Loading events...</p>}
       </div>
 
-      {/* Service Form - only show when an event is selected */}
       {selectedEvent && (
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Service Title</label>
-            <input
-              type="text"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              disabled={loading}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              required
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {[
+            { label: 'Service Title', type: 'text', value: formData.title, key: 'title' },
+            { label: 'Camera Equipment', type: 'text', value: formData.cameraEquipment, key: 'cameraEquipment' },
+            { label: 'Team Count', type: 'number', value: formData.teamCount, key: 'teamCount' },
+            { label: 'People to Shoot', type: 'number', value: formData.peopleToShoot, key: 'peopleToShoot' },
+            { label: 'Price', type: 'number', value: formData.price, key: 'price', required: true },
+          ].map(({ label, type, value, key, required }) => (
+            <div key={key}>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+              <input
+                type={type}
+                value={value}
+                onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                disabled={loading}
+                required={required}
+                className="w-full px-4 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+          ))}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Description</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
             <textarea
+              rows="4"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               disabled={loading}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              rows="3"
-            />
+              className="w-full px-4 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            ></textarea>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Camera Equipment</label>
+          {/* <div className="flex items-center space-x-3">
             <input
-              type="text"
-              value={formData.cameraEquipment}
-              onChange={(e) => setFormData({ ...formData, cameraEquipment: e.target.value })}
-              disabled={loading}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Team Count</label>
-            <input
-              type="number"
-              value={formData.teamCount}
-              onChange={(e) => setFormData({ ...formData, teamCount: e.target.value })}
-              disabled={loading}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">People to Shoot</label>
-            <input
-              type="number"
-              value={formData.peopleToShoot}
-              onChange={(e) => setFormData({ ...formData, peopleToShoot: e.target.value })}
-              disabled={loading}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Price</label>
-            <input
-              type="number"
-              value={formData.price}
-              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-              disabled={loading}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Is Custom</label>
-            <input
+              id="isCustom"
               type="checkbox"
               checked={formData.isCustom}
               onChange={(e) => setFormData({ ...formData, isCustom: e.target.checked })}
-              disabled={loading}
-              className="mt-1"
+              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
             />
-          </div>
+            <label htmlFor="isCustom" className="text-sm font-medium text-gray-700">Custom Service</label>
+          </div> */}
 
           <button
             type="submit"
             disabled={loading}
-            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+            className={`w-full flex items-center justify-center gap-2 py-2 px-4 rounded-md text-white text-lg font-semibold transition duration-300 ease-in-out ${loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'} focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
           >
-            {loading ? 'Adding...' : 'Add Service'}
+            {loading ? <Loader2 className="animate-spin h-5 w-5" /> : 'Add Service'}
           </button>
         </form>
       )}
+    </motion.div>
     </div>
   );
 };

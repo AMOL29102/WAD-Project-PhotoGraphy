@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { jwtDecode } from 'jwt-decode';
 import { useAuth } from '../context/AuthContext';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 
 
@@ -196,7 +196,7 @@ function EventDetails() {
               <div className="mt-4 flex gap-2">
                 { }
 
-                {!user.isAdmin && (<button
+                {!user?.isAdmin && (<button
                   onClick={() => addToWishlist(service._id)}
                   disabled={addingToWishlist[service._id]}
                   className={`bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 flex items-center space-x-2 ${addingToWishlist[service._id] ? 'opacity-75 cursor-not-allowed' : ''
