@@ -102,10 +102,25 @@ const createService = async (req, res) => {
   }
 };
 
+const deleteEvent = async (req, res) => {
+  try {
+    const event = await Event.findByIdAndDelete(req.params.id);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+    // Also delete associated services
+    await Service.deleteMany({ event: req.params.id });
+    res.status(200).json({ message: 'Event deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = { 
   getAllEvents, 
   createEvent, 
   updateEvent, 
   getEventServices, 
-  createService 
+  createService,
+  deleteEvent
 };

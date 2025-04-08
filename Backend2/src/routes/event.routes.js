@@ -27,5 +27,6 @@ router.post('/', upload.single('image'), createEvent); // Modified
 router.put('/:id', updateEvent);
 router.get('/:eventId/services', getEventServices);
 router.post('/:eventId/services', createService);
+router.delete('/:id', protectAdminRoutes, deleteEvent);
 
 module.exports = router;
