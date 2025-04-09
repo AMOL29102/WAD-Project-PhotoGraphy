@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 });
 
 module.exports = app;
-
+module.exports.handler = serverless(app);
 // const PORT = process.env.PORT || 3000;
 // // ✅ Start the server
 // app.listen(PORT, () => {
