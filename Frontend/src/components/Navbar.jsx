@@ -69,6 +69,12 @@ export default function Navbar() {
                       >
                         Add Service
                       </Link>
+                      <Link
+                        to="/admin/photo-rates"
+                        className="hover:text-red-500 transition-colors duration-200"
+                      >
+                        Manage Photo Rates
+                      </Link>
                     </>
                   )}
                 </>

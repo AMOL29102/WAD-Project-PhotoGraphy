@@ -29,6 +29,7 @@ import CustomEventForm from './components/CustomEventForm';
 import Wishlist from './components/Wishlist';
 // import AddServiceForm from './components/AddServiceForm';
 import AddServiceForm from './components/AddServiceForm';
+import PhotoRateManager from './components/PhotoRateManager';
 // Component to handle the preloader only on root
 function RootPage() {
   const [loading, setLoading] = useState(true);
@@ -75,6 +76,7 @@ function AppWrapper() {
         <Route path="/admin/add-service" element={<AddServiceForm />} />
         <Route path="/custom-event" element={<CustomEventForm />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/admin/photo-rates" element={<PhotoRateManager />} /> {/* Added route for PhotoRateManager */}
       </Routes>
     </div>
   );
