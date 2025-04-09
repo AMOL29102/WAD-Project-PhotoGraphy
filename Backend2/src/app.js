@@ -10,12 +10,12 @@ const path = require('path');
 
 // Middleware
 app.use(express.json());
-// app.use(
-//   cors({
-//     origin: ["http://localhost:5173", "https://hiraiphotostudio.vercel.app"],
-//     credentials: true, // only if using cookies/auth headers
-//   })
-// );
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://hiraiphotostudio.vercel.app"],
+    credentials: true, // only if using cookies/auth headers
+  })
+);
 // app.use('/uploads', express.static(path.join(__dirname, '../uploads'))); 
 
 
