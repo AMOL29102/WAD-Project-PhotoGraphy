@@ -12,7 +12,7 @@
 // });
 
 
-const app = require('../src/app');
+const app = require('./src/app');
 const serverless = require('serverless-http');
 const path = require('path');
 const express = require('express');
