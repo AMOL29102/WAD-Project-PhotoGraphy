@@ -16,7 +16,7 @@ const CustomEventForm = () => {
   useEffect(() => {
     const fetchPhotoRates = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/photo-rates');
+        const response = await axios.get('https://wad-project-photo-graphy.vercel.app/api/photo-rates');
         setPhotoRates(response.data);
       } catch (error) {
         toast.error('Failed to fetch photo rates');
@@ -37,10 +37,10 @@ const CustomEventForm = () => {
       return;
     }
 
-    const basePrice = estimatedPhotos * applicableRate.pricePerPhoto ;
+    const basePrice = estimatedPhotos * applicableRate.pricePerPhoto;
     const additionalPrice = (numberOfPhotographers - 1) * numberOfDays * 1000;
     const calculatedPrice = basePrice + additionalPrice;
-    
+
     setTotalPrice(calculatedPrice);
     toast.success('Price calculated successfully!');
   };

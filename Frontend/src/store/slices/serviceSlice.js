@@ -6,13 +6,13 @@ export const fetchServices = createAsyncThunk('services/fetchAll', async () => {
   return response.data;
 });
 
-export const addService = createAsyncThunk('http://localhost:3000/services/add', async (serviceData) => {
+export const addService = createAsyncThunk('https://wad-project-photo-graphy.vercel.app/services/add', async (serviceData) => {
   const response = await api.post('/services', serviceData);
   return response.data;
 });
 
 export const addToWishlist = createAsyncThunk('wishlist/add', async (serviceId) => {
-  const response = await api.post(`http://localhost:3000/wishlist/${serviceId}`);
+  const response = await api.post(`https://wad-project-photo-graphy.vercel.app/wishlist/${serviceId}`);
   return response.data;
 });
 
