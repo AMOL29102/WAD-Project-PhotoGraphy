@@ -30,7 +30,7 @@ const express = require('express');
 
 
 // Serve uploads folder
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 
 // Export app as serverless handler
 module.exports = app;
