@@ -18,7 +18,7 @@ const PhotoRateManager = () => {
 
   const fetchRates = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/photo-rates');
+      const response = await axios.get('https://wad-project-photo-graphy.vercel.app/api/photo-rates');
       setRates(response.data);
     } catch (error) {
       toast.error('Failed to fetch rates');
@@ -38,7 +38,7 @@ const PhotoRateManager = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:3000/api/photo-rates', newRate, {
+      await axios.post('https://wad-project-photo-graphy.vercel.app/api/photo-rates', newRate, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Rate added successfully');
@@ -54,7 +54,7 @@ const PhotoRateManager = () => {
   const handleDelete = async (rateId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.delete(`http://localhost:3000/api/photo-rates/${rateId}`, {
+      const response = await axios.delete(`https://wad-project-photo-graphy.vercel.app/api/photo-rates/${rateId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

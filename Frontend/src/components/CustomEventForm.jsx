@@ -16,7 +16,7 @@ const CustomEventForm = () => {
   useEffect(() => {
     const fetchPhotoRates = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/photo-rates');
+        const response = await axios.get('https://wad-project-photo-graphy.vercel.app/api/photo-rates');
         setPhotoRates(response.data);
       } catch (error) {
         toast.error('Failed to fetch photo rates');
