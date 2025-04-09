@@ -12,7 +12,7 @@
 // });
 
 
-const app = require('./src/app');
+const app = require('../src/app');
 const serverless = require('serverless-http');
 const path = require('path');
 const express = require('express');
@@ -21,5 +21,5 @@ const express = require('express');
 app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 
 // Export app as serverless handler
-module.exports = app;
-// module.exports.handler = serverless(app);
+// module.exports = app;
+module.exports.handler = serverless(app);
