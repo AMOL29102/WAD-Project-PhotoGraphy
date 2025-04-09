@@ -37,7 +37,7 @@ const CustomEventForm = () => {
       return;
     }
 
-    const basePrice = estimatedPhotos * applicableRate.pricePerPhoto * numberOfPhotographers;
+    const basePrice = estimatedPhotos * applicableRate.pricePerPhoto ;
     const additionalPrice = (numberOfPhotographers - 1) * numberOfDays * 1000;
     const calculatedPrice = basePrice + additionalPrice;
     
