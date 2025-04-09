@@ -124,9 +124,6 @@ const CustomEventForm = () => {
             <div className="mt-6 p-4 bg-blue-50 rounded-md">
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Estimated Price</h3>
               <p className="text-3xl font-bold text-blue-600">₹{totalPrice.toLocaleString()}</p>
-              <p className="text-sm text-gray-600 mt-2">
-                Based on {photoEstimate.estimatedPhotos} photos with {photoEstimate.numberOfPhotographers} photographer(s) for {photoEstimate.numberOfDays} day(s)
-              </p>
             </div>
           )}
         </div>

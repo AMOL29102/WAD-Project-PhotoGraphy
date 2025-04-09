@@ -54,13 +54,17 @@ const PhotoRateManager = () => {
   const handleDelete = async (rateId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:3000/api/photo-rates/${rateId}`, {
+      const response = await axios.delete(`http://localhost:3000/api/photo-rates/${rateId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      toast.success('Rate deleted successfully');
-      fetchRates();
+      
+      if (response.status === 200) {
+        setRates(rates.filter(rate => rate._id !== rateId));
+        toast.success('Rate deleted successfully');
+      }
     } catch (error) {
-      toast.error('Failed to delete rate');
+      console.error('Delete error:', error);
+      toast.error(error.response?.data?.message || 'Failed to delete rate');
     }
   };
 
