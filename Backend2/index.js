@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
-module.exports = app;
+// module.exports = app;
 module.exports.handler = serverless(app);
 // const PORT = process.env.PORT || 3000;
 // // ✅ Start the server
