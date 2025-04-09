@@ -50,6 +50,8 @@ const CustomEventForm = () => {
   };
 
   return (
+    <div className="pt-20 px-4">
+    
     <div className="max-w-4xl mx-auto p-6 mt-16">
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-2xl font-bold mb-6 text-gray-800">Custom Photo Package Calculator</h2>
@@ -121,6 +123,7 @@ const CustomEventForm = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
