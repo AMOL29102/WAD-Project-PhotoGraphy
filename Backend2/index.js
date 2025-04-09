@@ -20,16 +20,19 @@ const express = require('express');
 const cors = require('cors');
 
 
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "https://hiraiphotostudio.vercel.app"],
-    credentials: true, // only if using cookies/auth headers
-  })
-);
+// app.use(
+//   cors({
+//     origin: ["http://localhost:5173", "https://hiraiphotostudio.vercel.app"],
+//     credentials: true, // only if using cookies/auth headers
+//   })
+// );
+
+app.use(cors()); // Not recommended for production
+
 
 // Serve uploads folder
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Export app as serverless handler
 module.exports = app;
-module.exports.handler = serverless(app);
+// module.exports.handler = serverless(app);
