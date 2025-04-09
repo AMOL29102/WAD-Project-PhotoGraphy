@@ -8,14 +8,21 @@ const wishlistRoutes = require('./routes/wishlist.routes')
 const app = express();
 const path = require('path');
 
-// Middleware
-app.use(express.json());
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "https://hiraiphotostudio.vercel.app"],
-    credentials: true, // only if using cookies/auth headers
-  })
-);
+// Explicitly handle OPTIONS requests
+app.options('*', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://hiraiphotostudio.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.sendStatus(200); // Important: Ensure this is 200 OK
+});
+
+// CORS middleware
+app.use(cors({
+  origin: 'https://hiraiphotostudio.vercel.app', // No trailing slash
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}));
 // app.use('/uploads', express.static(path.join(__dirname, '../uploads'))); 
 
 
