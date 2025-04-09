@@ -1,11 +1,3 @@
-// const app = require('./src/src/app'); // this is your actual Express app
-// const PORT = process.env.PORT || 3000;
-// const path = require('path');
-// const express = require('express');
-
-// // ✅ Add this line to serve uploads through the actual app
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 
 const express = require('express');
 const connectDB = require('./src/config/db');
@@ -25,7 +17,7 @@ app.use(
     credentials: true, // only if using cookies/auth headers
   })
 );
-// app.use('/uploads', express.static(path.join(__dirname, '../src/uploads'))); 
+
 
 
 // Connect to database
@@ -58,14 +50,3 @@ module.exports = app;
 // });
 
 
-// const app = require('../src/src/app');
-// const serverless = require('serverless-http');
-// const path = require('path');
-// const express = require('express');
-
-// // Serve uploads folder
-// app.use('/uploads', express.static(path.join(__dirname, '../src/uploads')));
-
-// // Export app as serverless handler
-// // module.exports = app;
-// module.exports.handler = serverless(app);
