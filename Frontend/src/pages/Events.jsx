@@ -16,7 +16,7 @@ function Events() {
       try {
         setLoading(true);
         setError(null);
-        const res = await axios.get('http://localhost:3000/api/events');
+        const res = await axios.get('https://wad-project-photo-graphy.vercel.app/api/events');
         setEvents(res.data);
       } catch (err) {
         console.error('Failed to fetch events:', err);
@@ -30,7 +30,7 @@ function Events() {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3000/api/events/${selectedEventId}`, {
+      await axios.delete(`https://wad-project-photo-graphy.vercel.app/api/events/${selectedEventId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setShowDeleteModal(false);
