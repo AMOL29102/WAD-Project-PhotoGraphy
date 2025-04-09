@@ -17,7 +17,6 @@ const serverless = require('serverless-http');
 const path = require('path');
 const express = require('express');
 
-const cors = require('cors');
 
 
 // app.use(
@@ -34,5 +33,5 @@ const cors = require('cors');
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Export app as serverless handler
-// module.exports = app;
+module.exports = app;
 module.exports.handler = serverless(app);
