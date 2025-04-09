@@ -17,6 +17,16 @@ const serverless = require('serverless-http');
 const path = require('path');
 const express = require('express');
 
+const cors = require('cors');
+
+
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://hiraiphotostudio.vercel.app"],
+    credentials: true, // only if using cookies/auth headers
+  })
+);
+
 // Serve uploads folder
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
