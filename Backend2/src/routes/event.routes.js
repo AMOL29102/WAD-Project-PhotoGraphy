@@ -9,6 +9,7 @@
 // router.put('/:id', protectUserRoutes, updateEvent);
 
 // module.exports = router;
+
 const express = require('express');
 const router = express.Router();
 const {
@@ -17,16 +18,13 @@ const {
   updateEvent,
   getEventServices,
   createService,
+  deleteEvent,
+  deleteService,
 } = require('../controllers/event.controller');
-
-const upload = require('../middleware/upload');
 const { protectUserRoutes, protectAdminRoutes } = require('../middleware/authMiddleware');
-const { deleteEvent } = require('../controllers/event.controller');
-const { deleteService } = require('../controllers/event.controller');
 
-// ✅ Add image upload middleware to create event
 router.get('/', getAllEvents);
-router.post('/', upload.single('image'), createEvent); // Modified
+router.post('/', createEvent); // No upload middleware needed
 router.put('/:id', updateEvent);
 router.get('/:eventId/services', getEventServices);
 router.post('/:eventId/services', createService);

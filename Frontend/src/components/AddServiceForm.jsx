@@ -25,7 +25,7 @@ const AddServiceForm = () => {
     const fetchEvents = async () => {
       try {
         setFetchingEvents(true);
-        const response = await axios.get('https://wad-project-photo-graphy.vercel.app/api/events');
+        const response = await axios.get('http://localhost:3000/api/events');
         setEvents(response.data);
       } catch (err) {
         setError('Failed to fetch events: ' + (err.response?.data?.message || err.message));
@@ -52,7 +52,7 @@ const AddServiceForm = () => {
     setLoading(true);
     setError('');
     try {
-      await axios.post(`https://wad-project-photo-graphy.vercel.app/api/events/${selectedEvent._id}/services`, serviceData);
+      await axios.post(`http://localhost:3000/api/events/${selectedEvent._id}/services`, serviceData);
       alert('Service added successfully!');
       setFormData({ title: '', description: '', cameraEquipment: '', teamCount: '', peopleToShoot: '', price: '', isCustom: false });
     } catch (error) {

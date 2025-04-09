@@ -22,11 +22,12 @@ function AdminEvents() {
     if (imageFile) formData.append('image', imageFile);
 
     try {
-      const res = await axios.post('https://wad-project-photo-graphy.vercel.app/api/events', formData, {
+      const res = await axios.post('http://localhost:3000/api/events', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
+      console.log('Response:', res.data);
       setMessage('Event added successfully!');
       setEventData({ name: '', description: '' });
       setImageFile(null);

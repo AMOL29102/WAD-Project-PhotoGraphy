@@ -30,27 +30,37 @@
 // };
 
 // module.exports = { getAllEvents, createEvent, updateEvent };
-
-
-
 const Event = require('../models/eventModel');
 const Service = require('../models/serviceModel');
-const path = require('path');
+const cloudinary = require('cloudinary').v2;
 
-
-const getAllEvents = async (req, res) => {
-  try {
-    const events = await Event.find();
-    res.status(200).json(events);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const createEvent = async (req, res) => {
   try {
     const { name, description } = req.body;
-    const imageUrl = req.file ? `uploads/${req.file.filename}` : null;
+    console.log('Request Body:', req.body);
+    console.log('Request Files:', req.files);
+
+    let imageUrl = null;
+    if (req.files && req.files.image) {
+      console.log('Uploading file to Cloudinary:', req.files.image);
+
+      // Convert buffer to a base64 string for Cloudinary upload
+      const base64Image = req.files.image.data.toString('base64');
+      const dataUri = `data:${req.files.image.mimetype};base64,${base64Image}`;
+
+      const result = await cloudinary.uploader.upload(dataUri, {
+        folder: 'events',
+      });
+      imageUrl = result.secure_url;
+    } else {
+      console.log('No image file provided');
+    }
 
     const event = new Event({
       name,
@@ -61,10 +71,20 @@ const createEvent = async (req, res) => {
     await event.save();
     res.status(201).json(event);
   } catch (error) {
+    console.error('Error in createEvent:', error);
     res.status(400).json({ message: error.message });
   }
 };
 
+// Other functions remain unchanged
+const getAllEvents = async (req, res) => {
+  try {
+    const events = await Event.find();
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const updateEvent = async (req, res) => {
   try {
@@ -85,17 +105,13 @@ const getEventServices = async (req, res) => {
   }
 };
 
-const createService = async (req, res) => { 
+const createService = async (req, res) => {
   try {
     const service = await Service.create({
       ...req.body,
-      event: req.params.eventId
+      event: req.params.eventId,
     });
-    // Update the event's services array
-    await Event.findByIdAndUpdate(
-      req.params.eventId,
-      { $push: { services: service._id } }
-    );
+    await Event.findByIdAndUpdate(req.params.eventId, { $push: { services: service._id } });
     res.status(201).json(service);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -108,7 +124,6 @@ const deleteEvent = async (req, res) => {
     if (!event) {
       return res.status(404).json({ message: 'Event not found' });
     }
-    // Also delete associated services
     await Service.deleteMany({ event: req.params.id });
     res.status(200).json({ message: 'Event deleted successfully' });
   } catch (error) {
@@ -122,9 +137,8 @@ const deleteService = async (req, res) => {
     if (!service) {
       return res.status(404).json({ message: 'Service not found' });
     }
-    // Remove service reference from event
     await Event.findByIdAndUpdate(req.params.eventId, {
-      $pull: { services: req.params.serviceId }
+      $pull: { services: req.params.serviceId },
     });
     res.status(200).json({ message: 'Service deleted successfully' });
   } catch (error) {
@@ -132,12 +146,12 @@ const deleteService = async (req, res) => {
   }
 };
 
-module.exports = { 
-  getAllEvents, 
-  createEvent, 
-  updateEvent, 
-  getEventServices, 
+module.exports = {
+  getAllEvents,
+  createEvent,
+  updateEvent,
+  getEventServices,
   createService,
   deleteEvent,
-  deleteService
+  deleteService,
 };

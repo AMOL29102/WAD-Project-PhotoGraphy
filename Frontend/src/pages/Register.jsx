@@ -18,7 +18,7 @@ function Register() {
     }
 
     try {
-      const response = await axios.post("https://wad-project-photo-graphy.vercel.app/api/users/register", formData);
+      const response = await axios.post("http://localhost:3000/api/users/register", formData);
       console.log("Registration successful:", response.data);
       alert("Registration Successful!");
     } catch (error) {

@@ -35,7 +35,7 @@ function EventDetails() {
       try {
         setLoading(true);
         const servicesRes = await axios.get(
-          `https://wad-project-photo-graphy.vercel.app/api/events/${eventId}/services`
+          `http://localhost:3000/api/events/${eventId}/services`
         );
         setServices(servicesRes.data);
       } catch (err) {
@@ -55,7 +55,7 @@ function EventDetails() {
   const handleDeleteService = async () => {
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`https://wad-project-photo-graphy.vercel.app/api/events/${eventId}/services/${selectedServiceId}`, {
+      await axios.delete(`http://localhost:3000/api/events/${eventId}/services/${selectedServiceId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setShowDeleteModal(false);
@@ -71,7 +71,7 @@ function EventDetails() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `https://wad-project-photo-graphy.vercel.app/api/services/${selectedService._id}/estimate`,
+        `http://localhost:3000/api/services/${selectedService._id}/estimate`,
         estimationData,
         {
           headers: {
@@ -97,7 +97,7 @@ function EventDetails() {
     setAddingToWishlist(prev => ({ ...prev, [serviceId]: true }));
     try {
       const response = await axios.post(
-        `https://wad-project-photo-graphy.vercel.app/api/wishlist/${serviceId}`,
+        `http://localhost:3000/api/wishlist/${serviceId}`,
         {},
         {
           headers: {
