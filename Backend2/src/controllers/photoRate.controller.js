@@ -19,4 +19,16 @@ const getPhotoRates = async (req, res) => {
   }
 };
 
-module.exports = { createPhotoRate, getPhotoRates };
+const deletePhotoRate = async (req, res) => {
+  try {
+    const rate = await PhotoRate.findByIdAndDelete(req.params.id);
+    if (!rate) {
+      return res.status(404).json({ message: 'Rate not found' });
+    }
+    res.status(200).json({ message: 'Rate deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { createPhotoRate, getPhotoRates, deletePhotoRate };
