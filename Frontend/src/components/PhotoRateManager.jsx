@@ -27,6 +27,14 @@ const PhotoRateManager = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!newRate.minPhotos || !newRate.maxPhotos || !newRate.pricePerPhoto) {
+      toast.error('Please fill all fields');
+      return;
+    }
+    if (parseInt(newRate.minPhotos) >= parseInt(newRate.maxPhotos)) {
+      toast.error('Maximum photos must be greater than minimum photos');
+      return;
+    }
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
@@ -57,8 +65,8 @@ const PhotoRateManager = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-6">Manage Photo Rates</h2>
+    <div className="max-w-4xl mx-auto p-6 mt-16">
+      <h2 className="text-3xl font-bold mb-6 text-gray-800">Photo Rate Management</h2>
       
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -69,6 +77,7 @@ const PhotoRateManager = () => {
               value={newRate.minPhotos}
               onChange={(e) => setNewRate({...newRate, minPhotos: e.target.value})}
               className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+              min="1"
               required
             />
           </div>
@@ -79,6 +88,7 @@ const PhotoRateManager = () => {
               value={newRate.maxPhotos}
               onChange={(e) => setNewRate({...newRate, maxPhotos: e.target.value})}
               className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+              min="1"
               required
             />
           </div>
@@ -89,6 +99,7 @@ const PhotoRateManager = () => {
               value={newRate.pricePerPhoto}
               onChange={(e) => setNewRate({...newRate, pricePerPhoto: e.target.value})}
               className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+              min="1"
               required
             />
           </div>
@@ -98,20 +109,20 @@ const PhotoRateManager = () => {
           className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
           disabled={loading}
         >
-          {loading ? 'Adding...' : 'Add Rate'}
+          {loading ? 'Adding...' : 'Add Rate Range'}
         </button>
       </form>
 
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {rates.map((rate) => (
-          <div key={rate._id} className="bg-white p-4 rounded shadow-md flex justify-between items-center">
+          <div key={rate._id} className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center">
             <div>
-              <p className="font-medium">Range: {rate.minPhotos} - {rate.maxPhotos} photos</p>
+              <h3 className="font-semibold text-lg">Range: {rate.minPhotos} - {rate.maxPhotos} photos</h3>
               <p className="text-gray-600">Price per photo: ₹{rate.pricePerPhoto}</p>
             </div>
             <button
               onClick={() => handleDelete(rate._id)}
-              className="text-red-600 hover:text-red-800"
+              className="px-4 py-2 bg-red-100 text-red-600 rounded-md hover:bg-red-200"
             >
               Delete
             </button>

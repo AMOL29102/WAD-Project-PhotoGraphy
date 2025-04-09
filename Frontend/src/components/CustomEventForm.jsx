@@ -1,179 +1,126 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchServices } from '../store/slices/serviceSlice';
-import { useAuth } from '../context/AuthContext';
-import axios from 'axios'; // Added axios for fetching photo rates
+import axios from 'axios';
+import { toast } from 'react-toastify'; // Added react-toastify
 
 const CustomEventForm = () => {
-  const dispatch = useDispatch();
-  const { user } = useAuth();
-  const { services, loading } = useSelector((state) => state.services);
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    selectedServices: [],
-    customEstimates: [],
-  });
-  const [newEstimate, setNewEstimate] = useState({
-    name: '',
-    price: '',
-    description: '',
-  });
   const [photoEstimate, setPhotoEstimate] = useState({
     numberOfPhotographers: 1,
     estimatedPhotos: 0,
-    ratePerPhoto: 0,
-    totalPhotoPrice: 0
   });
+  const [totalPrice, setTotalPrice] = useState(0);
   const [photoRates, setPhotoRates] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchServices());
     const fetchPhotoRates = async () => {
       try {
         const response = await axios.get('http://localhost:3000/api/photo-rates');
         setPhotoRates(response.data);
       } catch (error) {
-        console.error('Failed to fetch photo rates:', error);
+        toast.error('Failed to fetch photo rates');
       }
     };
     fetchPhotoRates();
-  }, [dispatch]);
+  }, []);
 
-  const handleServiceSelect = (serviceId) => {
-    const service = services.find(s => s._id === serviceId);
-    if (service) {
-      setFormData(prev => ({
-        ...prev,
-        selectedServices: [...prev.selectedServices, service]
-      }));
-    }
-  };
+  const calculatePhotoPrice = () => {
+    const { estimatedPhotos, numberOfPhotographers } = photoEstimate;
 
-  const handleAddEstimate = () => {
-    if (newEstimate.name && newEstimate.price) {
-      setFormData(prev => ({
-        ...prev,
-        customEstimates: [...prev.customEstimates, newEstimate]
-      }));
-      setNewEstimate({ name: '', price: '', description: '' });
-    }
-  };
-
-  const handleRemoveService = (index) => {
-    const updatedServices = [...formData.selectedServices];
-    updatedServices.splice(index, 1);
-    setFormData(prev => ({ ...prev, selectedServices: updatedServices }));
-  };
-
-  const handleRemoveEstimate = (index) => {
-    const updatedEstimates = [...formData.customEstimates];
-    updatedEstimates.splice(index, 1);
-    setFormData(prev => ({ ...prev, customEstimates: updatedEstimates }));
-  };
-
-  const calculatePhotoPrice = (photos, photographers) => {
     const applicableRate = photoRates.find(
-      rate => photos >= rate.minPhotos && photos <= rate.maxPhotos
+      rate => estimatedPhotos >= rate.minPhotos && estimatedPhotos <= rate.maxPhotos
     );
-    if (applicableRate) {
-      return photos * applicableRate.pricePerPhoto * photographers;
+
+    if (!applicableRate) {
+      toast.error('No applicable rate found for this number of photos');
+      return;
     }
-    toast.error('No applicable rate found for this number of photos');
-    return 0;
+
+    const calculatedPrice = estimatedPhotos * applicableRate.pricePerPhoto * numberOfPhotographers;
+    setTotalPrice(calculatedPrice);
+    toast.success('Price calculated successfully!');
   };
 
-  const handleEstimateSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const totalPhotoPrice = calculatePhotoPrice(
-      photoEstimate.estimatedPhotos,
-      photoEstimate.numberOfPhotographers
-    );
-    setPhotoEstimate(prev => ({
-      ...prev,
-      totalPhotoPrice
-    }));
+    if (!photoEstimate.estimatedPhotos || !photoEstimate.numberOfPhotographers) {
+      toast.error('Please fill all fields');
+      return;
+    }
+    calculatePhotoPrice();
   };
-
-  const handlePhotoEstimateChange = (field, value) => {
-    setPhotoEstimate(prev => {
-      const newEstimate = { ...prev, [field]: parseInt(value, 10) || 0 }; //parseInt for number inputs
-      const totalPhotoPrice = calculatePhotoPrice(newEstimate.estimatedPhotos);
-      return { ...newEstimate, totalPhotoPrice };
-    });
-  };
-
-  const calculateTotalPrice = () => {
-    const selectedServicesTotal = formData.selectedServices.reduce((total, service) => total + parseFloat(service.price || 0), 0);
-    const customEstimatesTotal = formData.customEstimates.reduce((total, estimate) => total + parseFloat(estimate.price || 0), 0);
-    return (selectedServicesTotal + customEstimatesTotal + photoEstimate.totalPhotoPrice).toFixed(2);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const totalPrice = calculateTotalPrice();
-    alert(`Your estimated total for this custom event is $${totalPrice}. Please contact us to finalize your booking.`);
-  };
-
-  if (!user) {
-    return (
-      <div className="text-center py-12 mt-16">
-        <h2 className="text-2xl font-bold mb-4">Please Login</h2>
-        <p className="text-gray-600">You need to log in to create custom event estimates.</p>
-      </div>
-    );
-  }
-
-  const totalItems = formData.selectedServices.length + formData.customEstimates.length;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 mt-20">
-      <h2 className="text-2xl font-bold mb-6">Create Custom Event Price Estimate</h2>
-      <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-        <p className="text-yellow-700">
-          This tool is for generating price estimates only. Your custom estimates are not saved to the database.
-        </p>
-      </div>
+    <div className="max-w-4xl mx-auto p-6 mt-16">
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">Custom Photo Package Calculator</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* ... existing form elements ... */}
-
-        <div>
-          <h3 className="text-lg font-medium text-gray-900">Photo Estimate</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Number of Cameramen</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Number of Photographers
+              </label>
               <input
                 type="number"
+                min="1"
                 value={photoEstimate.numberOfPhotographers}
-                onChange={(e) => handlePhotoEstimateChange('numberOfPhotographers', e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                onChange={(e) => setPhotoEstimate({
+                  ...photoEstimate,
+                  numberOfPhotographers: parseInt(e.target.value) || 1
+                })}
+                className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500"
+                required
               />
             </div>
+
             <div>
-              <label className="block text-sm font-medium text-gray-700">Estimated Photos</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Estimated Number of Photos
+              </label>
               <input
                 type="number"
+                min="1"
                 value={photoEstimate.estimatedPhotos}
-                onChange={(e) => handlePhotoEstimateChange('estimatedPhotos', e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Total Photo Price</label>
-              <input
-                type="text"
-                value={`$${photoEstimate.totalPhotoPrice.toFixed(2)}`}
-                readOnly
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                onChange={(e) => setPhotoEstimate({
+                  ...photoEstimate,
+                  estimatedPhotos: parseInt(e.target.value) || 0
+                })}
+                className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500"
+                required
               />
             </div>
           </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition duration-200"
+          >
+            Calculate Price
+          </button>
+        </form>
+
+        {totalPrice > 0 && (
+          <div className="mt-6 p-4 bg-blue-50 rounded-md">
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">Estimated Price</h3>
+            <p className="text-3xl font-bold text-blue-600">₹{totalPrice.toLocaleString()}</p>
+            <p className="text-sm text-gray-600 mt-2">
+              Based on {photoEstimate.estimatedPhotos} photos with {photoEstimate.numberOfPhotographers} photographer(s)
+            </p>
+          </div>
+        )}
+
+        <div className="mt-6">
+          <h3 className="text-lg font-medium text-gray-800 mb-3">Available Photo Rate Ranges</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {photoRates.map((rate, index) => (
+              <div key={index} className="p-3 bg-gray-50 rounded-md">
+                <p className="font-medium">{rate.minPhotos} - {rate.maxPhotos} photos</p>
+                <p className="text-gray-600">₹{rate.pricePerPhoto} per photo</p>
+              </div>
+            ))}
+          </div>
         </div>
-
-
-        {/* ... existing form elements ... */}
-      </form>
+      </div>
     </div>
   );
 };
